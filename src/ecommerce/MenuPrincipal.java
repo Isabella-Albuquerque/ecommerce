@@ -1,5 +1,6 @@
 package ecommerce;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,7 +20,14 @@ public class MenuPrincipal {
         while (true) {
             exibirMenu();
 
-            opcao = leia.nextInt();
+          //Tratamento de exceções
+            try {
+                opcao = leia.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Erro: entrada inválida. Insira um número do menu.");
+                leia.next(); 
+                continue; 
+            }
 
             if (opcao == 4) {
                 System.out.println("\nAgradecemos seu interesse em nossos produtos! Volte sempre!");
@@ -131,7 +139,7 @@ public class MenuPrincipal {
     private static void finalizarCompra(Scanner leia, Carrinho carrinho) {
         exibirCarrinho(carrinho);
 
-        System.out.println("Por favor, insira seu nome: ");
+        System.out.println("Preencha os dados para finalizar sua compra:\nInsira seu nome: ");
         String nomeCliente = leia.next();
 
         System.out.println("Insira seu email: ");
@@ -140,7 +148,7 @@ public class MenuPrincipal {
         System.out.println("Insira seu endereço: ");
         String enderecoCliente = leia.next();
 
-        System.out.println("\nCompra Finalizada!\nInformações da Compra:");
+        System.out.println("\n COMPRA FINALIZADA COM SUCESSO!\nInformações da Compra:");
         System.out.println("Nome comprador: " + nomeCliente);
         System.out.println("E-mail: " + emailCliente);
         System.out.println("Endereço de entrega: " + enderecoCliente);
@@ -149,10 +157,10 @@ public class MenuPrincipal {
         System.out.println(" O código de pagamento PIX é: " + gerarCodigoPix());
         System.out.println("Obrigada por comprar conosco!! :D  \n\n ");
 
-        carrinho.limparCarrinho();
+        carrinho.limparCarrinho(); //para limpar o carrinho quando a compra é finalizada
     }
 
-    private static String gerarCodigoPix() {
+    private static String gerarCodigoPix() { //para gerar um numero aleatório simulando um código PIX
         return String.valueOf((int) (Math.random() * 100000));
     }
 }
